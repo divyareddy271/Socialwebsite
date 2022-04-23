@@ -1,0 +1,53 @@
+
+.Heading{
+    color: #ef7917;
+    font-size: 30px;
+    font-weight: 600;
+    font-style: normal;
+    text-align: center;
+}
+.Formpage{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width:30%;
+    margin:50px auto;
+   padding: 20px;
+    border-radius: 6px;
+    background-color: white;
+    box-sizing: border-box;
+    border: 1px solid gainsboro;
+}
+.field{
+    width: 100%;
+}
+.field input{
+    height : 40px;
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 6px;
+    box-sizing: border-box;
+    padding: 5px;
+    border:1px solid rgb(212, 208, 208);
+}
+.field input:focus{
+    outline: none;
+}
+.field button{
+    font-style: normal;
+    width: 100%;
+    font-size: 20px;
+    margin-top: 20px;
+    border-radius: 6px;
+    border: none;
+    padding: 9px;
+    color: white;
+    background-color: #ef7917;;
+}
+.Formpage button:hover{
+    cursor: pointer;
+}
+.field button:disabled{
+    cursor: not-allowed;
+}
