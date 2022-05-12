@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { Login } from '../pages';
+import { Login, Register } from '../pages';
 import { getPosts } from '../api';
 import { Home } from '../pages';
 import  Loader  from './Loader';
@@ -54,6 +54,9 @@ if(loading){
         </Route>
         <Route path="/login"
         element =  {<Page404 /> }>
+        </Route>
+        <Route path="/register"
+        element =  {<Register /> }>
         </Route>
        
       </Routes>

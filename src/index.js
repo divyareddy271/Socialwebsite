@@ -5,15 +5,14 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 //import  toast  from 'react-toast-notification';
 import App from './components/App'
-//import { ToastContainer, toast } from 'react-toastify';
-//import 'react-toastify/dist/ReactToastify.css';
+import { AuthProvider } from './providers/AuthProvider';
+
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-
-    <App />
-
-
+    <AuthProvider>
+      <App />
+    </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
