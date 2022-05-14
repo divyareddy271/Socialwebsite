@@ -1,8 +1,29 @@
 import propTypes from "prop-types";
+import { useEffect, useState } from 'react';
 //to validate props
 import styles from '../styles/home.module.css';
+import  Loader  from '../components/Loader';
+import { getPosts } from '../api';
 
-export const Home = ({posts}) => {
+export const Home = () => {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState([]);
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const response = await getPosts();
+
+      if (response.success) {
+        setPosts(response.data.posts);
+      }
+
+      setLoading(false);
+    };
+
+    fetchPosts();
+  }, []);
+  if(loading){
+    return <Loader />
+  }
   return (
     <div className={styles.postList}>
      {posts.map((post) => (
