@@ -18,7 +18,7 @@ const Navbar = () => {
       <div className={styles.rightNav}>
         {auth.user && (
           <div className={styles.user}>
-            <Link to="/">
+            <Link to="/settings">
               <img
                 src="https://cdn-icons-png.flaticon.com/128/236/236831.png"
                 alt="profilepic"
@@ -31,8 +31,8 @@ const Navbar = () => {
         <div className={styles.navLinks}>
           <ul>
             {auth.user ? (
-              <li>
-                <Link onClick={auth.logout}> Log out </Link>
+              <li onClick={auth.logout}>
+                 Log out 
               </li>
             ) : (
              <>
