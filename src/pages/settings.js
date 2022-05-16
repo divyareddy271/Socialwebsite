@@ -3,22 +3,53 @@ import { useAuth } from "../hooks";
 import styles from "../styles/settings.module.css";
 
 const Settings = () => {
+  const auth = useAuth();
+
+ // const [userid, setUserid] = useState(auth.user?._id ? auth.user?._id : "");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  const [name, setName] = useState(auth.user?.name ? auth.user?.name : "");
   const [confirm_password, SetConfirm_password] = useState("");
   const [editmode, setEditmode] = useState(false);
-  const [savingform, setSavingform] = useState(false);
-  const disablededitmode = () => {
-    setEditmode(true);
+  const [savingform, setSavingform] = useState(true);
+
+  const SaveForm = async (e) => {
+    e.preventDefault();
+
+    setSavingform(false);
+    console.log(savingform);
+    const userid  = auth.user?._id;
+    console.log("Hello");
+
+    let error = true;
+    if (!name || !password || !confirm_password) {
+      console.log("please fillup all the filed values");
+      error = false;
+    }
+    if (password !== confirm_password) {
+      console.log(
+        password +
+          " " +
+          confirm_password +
+          " " +
+          "Password and confirm password is not matching"
+      );
+      error = false;
+    }
+    if (error) {
+   setSavingform(true);
+    }
+    console.log("helloworld");
+    console.log(userid + " " + name + " " + password + " " + confirm_password);
+    const response = await auth.updateProfile(userid,password,confirm_password,name);
+    
+    if (response.success) {
+      // setSavingform(true);
+      console.log("Updated the deatials successfully");
+    } else {
+      console.log("error");
+    }
   };
-  const enableeditmode = () => {
-    setEditmode(false);
-  };
-  const Saveform  = () => {
-   // setSavingform(true);
-  };
-  const auth = useAuth();
-  console.log(auth.user);
+
   return (
     <div className={styles.settings}>
       <div className={styles.imagecontainer}>
@@ -28,8 +59,6 @@ const Settings = () => {
           className={styles.userDp}
         />
       </div>
-
-      <form>
         <div className={styles.field}>
           <div className={styles.fieldName}>Email</div>
           <div className={styles.fieldValue}>{auth.user?.email}</div>
@@ -42,7 +71,7 @@ const Settings = () => {
               <input
                 type="text"
                 className={styles.field}
-                value={auth.user?.name}
+                value={name}
                 onChange={(e) => setName(e.target.value)}
               ></input>
             </div>
@@ -78,29 +107,31 @@ const Settings = () => {
           </div>
         )}
         <div className={styles.btnGrp}>
-        { editmode ?( <>
-            <div className={styles.btn}>
-          <button className={styles.saveBtn}  onClick={Saveform}>
-            {savingform ? "Saving form..." : "Save"}
-           
-          </button>
-          <button
-            className={styles.gobackbtn}
-            onClick={enableeditmode}>
-            Go back
-          </button>
+          {editmode ? (
+            <>
+              <div className={styles.btn}>
+                <button className={styles.saveBtn} onClick={SaveForm}>
+                  {savingform ? "Save" : "Saving form..."}
+                </button>
+                <button
+                  className={styles.goBack}
+                  onClick={() => setEditmode(false)}
+                >
+                  Go back
+                </button>
+              </div>
+            </>
+          ) : (
+            <div>
+              <button
+                className={styles.editBtn}
+                onClick={() => setEditmode(true)}>
+                Edit Profile
+              </button>
+            </div>
+          )}
         </div>
-        </>) : (
-        <div>
-        <button
-          className={styles.editBtn}
-          onClick={disablededitmode} >
-          Edit Profile
-        </button>
-      </div>
-       )}
-       </div>
-      </form>
+
     </div>
   );
 };

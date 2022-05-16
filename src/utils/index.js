@@ -7,9 +7,10 @@ export const SetItemonLocalStorage = (key, value) => {
       return;
     }
     const valueToStore = typeof value !== "string" ? JSON.stringify(value) : value;
+    console.log(value);
     localStorage.setItem(key, valueToStore);
 }
-export const getItemfromLocalStorage = (key, value) => {
+export const getItemfromLocalStorage = (key) => {
   if(!key){
     console.log("Unable to get key from local storage");
     return;
@@ -23,10 +24,6 @@ export const removeItemfromLocalStorage = (key) => {
   }
   localStorage.removeItem(key);
 }
-
-
-
-
 
 export const getFormBody = (params) => {
   let formBody = [];

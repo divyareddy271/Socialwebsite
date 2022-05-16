@@ -84,6 +84,7 @@ button:disabled {
     color: #ef7917;
     margin-top: 7px;
     font-size: 13px;
+    border: 1px solid #ef7917;
   }
   .settings .goBack:hover {
     cursor: pointer;

@@ -64,3 +64,9 @@ export const register = (email,name, password,confirm_password) =>{
     body: {email,name, password,confirm_password}
   });
 }
+export const editprofile = (id, password,confirm_password,name) =>{
+  return customFetch(API_URLS.editUser(),{
+    method: 'POST',
+    body: {id,password,confirm_password,name}
+  });
+}
