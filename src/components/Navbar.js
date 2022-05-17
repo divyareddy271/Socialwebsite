@@ -25,7 +25,7 @@ const Navbar = () => {
                 className={styles.userDp}
               />
             </Link>
-            <span>{auth.user.name}</span>
+           <span>{auth.user.name}</span>
           </div>
         )}
         <div className={styles.navLinks}>

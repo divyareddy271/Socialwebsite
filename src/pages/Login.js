@@ -1,9 +1,10 @@
 import { useState } from "react";
 import styles from "../styles/login.module.css";
-
+import { useNavigate } from "react-router";
 //import { toast } from 'react-toastify';
 import { useAuth } from "../hooks";
 const Login = () => {
+  const navigate = useNavigate();
     const [email, setEmail]= useState("");
     const [password, setPassword]= useState("");
     const [loggingIn, setLoggingIn]= useState(false);
@@ -26,6 +27,11 @@ const Login = () => {
     }
     setLoggingIn(false);
 }
+if(auth.user){
+ navigate("/");
+}
+
+
   return (
     <form className={styles.Formpage} onSubmit = {handleSubmit}>
       <div className={styles.Heading}>

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import styles from '../styles/home.module.css';
 import  Loader  from '../components/Loader';
 import { getPosts } from '../api';
+import { Link } from "react-router-dom";
 
 export const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -35,7 +36,10 @@ export const Home = () => {
               alt="Profile"
             />
             <div className={styles.ProfileName}>
-              <span className={styles.postAuthor}>{post.user.name}</span>
+            <Link to={ `/user/${post.user._id}`}
+                  state={{user: post.user}}
+                
+              className={styles.postAuthor}>{post.user.name}</Link>
 
               <span className={styles.postTime}>a minute ago</span>
             </div>

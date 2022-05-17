@@ -3,6 +3,7 @@ import { useAuth } from "../hooks";
 import styles from "../styles/login.module.css";
 import { useNavigate} from "react-router-dom";
 
+
 const Register = () => {
     const [email,SetEmail] = useState("");
     const [name,SetName] = useState('');
@@ -11,7 +12,7 @@ const Register = () => {
     const [signingup,SetSigningup] = useState(false);
     const auth = useAuth();
     const navigate = useNavigate();
-    
+
    // console.log(navigate);
     const handleSubmit =async(e) => {
         e.preventDefault(); 
@@ -38,7 +39,9 @@ const Register = () => {
     else{
         console.log("error");
     }
-    
+}
+if(auth.user){
+  return navigate("/");
 }
   return (
     <form className={styles.Formpage} onSubmit = {handleSubmit} >
