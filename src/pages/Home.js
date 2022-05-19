@@ -5,6 +5,8 @@ import styles from '../styles/home.module.css';
 import  Loader  from '../components/Loader';
 import { getPosts } from '../api';
 import { Link } from "react-router-dom";
+import Comment from "../components/Comment";
+
 
 export const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -37,7 +39,6 @@ export const Home = () => {
             />
             <div className={styles.ProfileName}>
             <Link to={ `/user/${post.user._id}`}
-                  state={{user: post.user}}
                 
               className={styles.postAuthor}>{post.user.name}</Link>
 
@@ -47,33 +48,33 @@ export const Home = () => {
           <div className={styles.postContent}>
             <span>{post.content}</span>
           </div>
-        </div>
-        <hr></hr>
-        <div className={styles.likeComment}>
-          <img src="https://cdn-icons-png.flaticon.com/128/1077/1077035.png" />
-          <span>5</span>
-          <img src="https://t4.ftcdn.net/jpg/01/09/34/83/240_F_109348365_Z8PhLswPi5USmZxOyH31cpNVspCHfoD5.jpg"></img>
-          <span>2</span>
-        </div>
-        <hr></hr>
-        <div className={styles.postCommentBox}>
-          <input
-            id="commentbox"
-            placeholder="Start typing a comment"
-          />
-        </div>
-        <div className={styles.postCommentsList}>
-            <div className={styles.postCommentsItem}>
-                <div className={styles.postCommentHeader}>
-                    <span className={styles.postCommentAuthor}>Bill </span>
-                    <span className={styles.postCommentTime}> a minute ago </span>
-                    <span className={styles.postCommentLikes}>22</span>
-                </div>
-                <div>
-                    <span className={styles.postCommentContent}>Random comments</span>
-                </div>
+        <div className={styles.postActions}>
+              <div className={styles.postLike}>
+                <img
+                  src="https://cdn-icons-png.flaticon.com/128/1077/1077035.png" 
+                  alt="likes-icon"
+                />
+                <span>5</span>
+              </div>
+
+              <div className={styles.postCommentsIcon}>
+                <img
+                  src="https://t4.ftcdn.net/jpg/01/09/34/83/240_F_109348365_Z8PhLswPi5USmZxOyH31cpNVspCHfoD5.jpg"
+                  alt="comments-icon"
+                />
+                <span>{post.comments.length}</span>
+              </div>
             </div>
-        </div>
+            <div className={styles.postCommentBox}>
+              <input placeholder="Start typing a comment" />
+            </div>
+
+            <div className={styles.postCommentsList}>
+              {post.comments.map((comment) => (
+                <Comment comment={comment} />
+              ))}
+            </div>
+       </div>
         </div>
       ))}
     </div>

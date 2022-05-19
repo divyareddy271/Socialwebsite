@@ -2,8 +2,7 @@ body{
     margin:1px;   
     background-color:rgb(238, 235, 231);
 }
-.postComponent{
-    
+.postComponent{   
   padding:5px;
   border: 1px solid #e0e0e0;
   box-sizing: border-box;
@@ -14,16 +13,18 @@ body{
 .postDetails{
  padding:10px 10px;
 }
+
 .PostProfile{
     display: flex;
-    flex-direction: row;
-     
+    flex-direction: row;     
 }
-
+.postProfile > div {
+  display: flex;
+  flex-direction: column;
+  padding-left: 12px;
+}
 .PostProfile img{
     height:50px;
-    width:50px;
-    margin:10px;
 }
 .Name{
  font-weight: bold;
@@ -33,8 +34,10 @@ body{
     flex-direction: column;
     padding-left: 12px;
 }
-
-.ProfileName .postAuthor {
+.PostProfile .postAuthor:hover{
+  text-decoration: underline;
+}
+.PostProfile .postAuthor {
     color: #616161;
     /* font-family: Open Sans; */
     font-style: normal;
@@ -43,7 +46,7 @@ body{
     line-height: 22px;
     text-decoration: none;
   }
-  .ProfileName .postTime {
+  .PostProfile .postTime {
     /* font-family: Open Sans; */
     font-style: normal;
     font-weight: normal;
@@ -60,7 +63,7 @@ body{
     color: #424242;
     margin-top: 15px;
   }
-.likeComment{
+/*.likeComment{
  display: flex;
  flex-direction: row;
  width:5%;
@@ -124,5 +127,96 @@ margin-left: 8px;
   }
   .postCommentsList .commentLike img:hover {
     cursor: pointer;
+  }*/
+  .postActions {
+    padding: 5px;
+    display: flex;
+    border: 1px solid #e0e0e0;
+    padding: 5px 10px;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 19px;
+    color: #616161;
+    border-right: none;
+    border-left: none;
   }
-  
+  .postActions img {
+    height: 18px;
+  }
+  .postActions img:hover {
+    cursor: pointer;
+  }
+  .postLike {
+    display: flex;
+    align-items: center;
+  }
+  .postCommentsIcon {
+    margin-left: 15px;
+    display: flex;
+    align-items: center;
+  }
+  .postLike span,
+  .postCommentsIcon span {
+    margin-left: 7px;
+  }
+  .postCommentBox {
+    padding: 10px 10px;
+  }
+  .postCommentBox input {
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    height: 35px;
+    margin: 0 auto;
+    width: 100%;
+    font-size: 15px;
+    box-sizing: border-box;
+    padding: 5px;
+  }
+  .postCommentBox input:focus {
+    outline: none;
+  }
+  .postCommentsList {
+    padding: 5px 10px;
+    position: relative;
+  }
+  .postCommentItem {
+    background: #eceffa;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 14px;
+  }
+  .postCommentHeader {
+    display: flex;
+  }
+  .postCommentHeader .postCommentAuthor {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    color: #757575;
+  }
+  .postCommentHeader .postCommentTime {
+    font-size: 12px;
+    line-height: 16px;
+    color: #9e9e9e;
+    margin-left: 8px;
+  }
+  .postCommentHeader .postCommentLikes {
+    font-size: 12px;
+    line-height: 16px;
+    color: #616161;
+    margin-left: 8px;
+  }
+  .postCommentContent {
+    margin-top: 7px;
+  }
+  .postCommentsList .commentLike {
+    position: absolute;
+    right: 21px;
+    top: 13px;
+  }
+  .postCommentsList .commentLike img {
+    height: 20px;
+  }
+  .postCommentsList .commentLike img:hover {
+    cursor: pointer;
+  }

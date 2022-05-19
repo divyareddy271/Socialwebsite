@@ -7,6 +7,8 @@ const initialState ={
     loding: true,
     signup: () => {},
    updateProfile : () => {},
+   addfriendtolist :() =>{},
+   fetchfriendslist : () => {},
 };
 export const AuthContext = createContext(initialState);
 export const AuthProvider = ({children}) => {

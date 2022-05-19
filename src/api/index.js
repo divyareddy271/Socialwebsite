@@ -70,3 +70,21 @@ export const editprofile = (id, password,confirm_password,name) =>{
     body: {id,password,confirm_password,name}
   });
 }
+export const userinformation= (userId) =>{
+  return customFetch(API_URLS.userInfo(userId),{
+    method: 'GET',
+  });
+}
+export const addfriend = (id) =>{
+  console.log("api",id);
+  return customFetch(API_URLS.createFriendship(id),{
+    method: 'POST',
+  });
+}
+export const fetchfriends= () =>{
+  return  customFetch(API_URLS. friends(),{
+    method: 'GET',
+  });
+}
+
+
