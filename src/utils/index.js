@@ -7,7 +7,7 @@ export const SetItemonLocalStorage = (key, value) => {
       return;
     }
     const valueToStore = typeof value !== "string" ? JSON.stringify(value) : value;
-    console.log(value);
+    console.log("value",valueToStore, "key",key);
     localStorage.setItem(key, valueToStore);
 }
 export const getItemfromLocalStorage = (key) => {

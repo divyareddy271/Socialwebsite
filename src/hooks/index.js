@@ -108,9 +108,19 @@ export const useProvideAuth = () => {
     if (isaddfriend) {
       setUser({
         ...user,
-        friendship: [...user.friendship, friend],
+        friendships: [...user.friendships, friend],
       });
       return;
+    }
+    else{
+      const newFriends = user.friendships.filter(
+        (f) => f.to_user._id !== friend.to_user._id
+      );
+  
+      setUser({
+        ...user,
+        friends: newFriends,
+      });
     }
   };
   const logout = () => {

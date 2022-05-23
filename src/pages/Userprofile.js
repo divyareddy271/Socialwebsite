@@ -4,7 +4,7 @@ import { useAuth } from "../hooks";
 import Loader from "../components/Loader";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { userinformation, addfriend } from "../api";
+import { userinformation, addfriend,removefriendship } from "../api";
 
 /*import { useLocation } from "react-router-dom";
 const location = useLocation();
@@ -35,19 +35,19 @@ const Userprofile = () => {
       }
       setLoading(false);
     };
+    const Isuserafriend=()=>{
+      const friends = auth.user.friendships;
+       const Friendsid = friends.map((friend) => friend.to_user._id);
+      const index= Friendsid.indexOf(userId);
+      if(index!=-1){
+        setIsfriend(true);
+      }
+     }
+     Isuserafriend();
     fetchUserprofile();
   }, [userId, navigate]);
 
-
-  /*const Isuserafriend=()=>{
-       const friends = auth.user.friendships;
-        const index = friends.map(friend => friend.to_user._id);
-        index.map((indexes) =>{
-            if(indexes == userId){
-                console.log(indexes);
-            return setIsfriend(true);}
-            console.log(indexes);
-        })*/
+     
 
   //const isfriendexist = Isuserafriend();
   //console.log(userId);
@@ -55,15 +55,37 @@ const Userprofile = () => {
     setRequestinprogress(true);
     const response = await addfriend (userId);
     const { friend } = response.data;
-    console.log("userupdte - 1",response.data);
+    console.log("userauth",auth.user.friendships);
     if (response.success) {
       auth.updateuserdetails(true, friend);
+     
+        setIsfriend(true);
+      setRequestinprogress(false);
+      return;
     } else {
       console.log("error in fetching friend's profile");
       setRequestinprogress(false);
     }
   };
-  const removefriend = () => {};
+  const handleremovefriend =async () => {
+    setRequestinprogress(true);
+    const response = await removefriendship (userId);
+   
+    if (response.success) {
+      console.log(auth);
+      const friends= auth.user.friendships.filter(
+        (friend) => friend.to_user._id === userId
+        );
+      console.log("friends :  ", friends);
+    //  const index= Friendsid.indexOf(friend);
+      auth.updateuserdetails(false, friends[0]);
+     
+    } else {
+      console.log("error in fetching friend's profile");
+    }
+      setIsfriend(false);
+      setRequestinprogress(false);
+  };
    if (loading) {
     return <Loader />;
   }
@@ -88,8 +110,9 @@ const Userprofile = () => {
       <div className={styles.btnGrp}>
         {isfriend ? (
           <div className={styles.btn}>
-            <button className={styles.saveBtn} onClick={removefriend}>
-              Rempove Friend
+            <button className={styles.saveBtn} onClick={handleremovefriend} 
+            disabled = {requestinprogress}>
+                {requestinprogress ? "Removing friend" : "Remove Friend"}
             </button>
           </div>
         ) : (

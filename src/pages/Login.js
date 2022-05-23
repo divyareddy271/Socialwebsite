@@ -33,7 +33,8 @@ if(auth.user){
 
 
   return (
-    <form className={styles.Formpage} onSubmit = {handleSubmit}>
+     
+    <form className={styles.Formpage}  onSubmit = {handleSubmit}>
       <div className={styles.Heading}>
         <span>Log In</span>
       </div>
