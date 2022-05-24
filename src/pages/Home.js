@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import Comment from "../components/Comment";
 import Friendslist from "../components/Friendslist";
 import { useAuth } from "../hooks";
+import  Createposts  from "./Createposts";
 
 export const Home = () => {
   const auth = useAuth();
@@ -33,6 +34,7 @@ export const Home = () => {
   
       <div className={styles.home}>
       <div className={styles.postLeft}>
+      <Createposts />
         {posts.map((post) => (
           <div className={styles.postWrapper} key={`post-${post._id}`}>
             <div className={styles.postDetails}>

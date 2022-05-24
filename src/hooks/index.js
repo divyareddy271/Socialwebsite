@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 import { login as userLogin } from "../api";
-import { register, editprofile, addfriend, fetchfriends } from "../api";
+import { register, editprofile, addfriend, fetchfriends,postCreation } from "../api";
 import {
   getItemfromLocalStorage,
   LocalStorage_Token_Key,
@@ -18,6 +18,7 @@ export const useAuth = () => {
 export const useProvideAuth = () => {
   const [user, setUser] = useState();
   const [Loading, setLoading] = useState(true);
+  const [posts,setPosts] = useState(); 
   useEffect(() => {
     const getUser = async () => {
       const userToken = getItemfromLocalStorage(LocalStorage_Token_Key);
@@ -127,11 +128,28 @@ export const useProvideAuth = () => {
     setUser(null);
     removeItemfromLocalStorage(LocalStorage_Token_Key);
   };
+   const postcreationhook = async (content) => {
+   const response = await postCreation(content);
+   console.log(response);
+   if(response.success){
+    setPosts(response.data.post);
+    return {
+      success: true,
+    };
+  } else {
+    setUser(null);
+    return {
+      success: false,
+      message: response.message,
+    };
+   }
+   }
 
   return {
     user,
     login,
     logout,
+    postcreationhook,
     Loading,
     signup,
     updateProfile,

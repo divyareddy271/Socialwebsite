@@ -38,7 +38,7 @@ function App() {
   }
   
   return (
-    <div className="myStyle" >
+    <div className="App.js" >
       
         <Navbar />
         <Routes>
