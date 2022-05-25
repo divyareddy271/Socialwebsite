@@ -1,17 +1,18 @@
 import { useState } from "react";
 import styles from "../styles/home.module.css"
-import {useAuth} from "../hooks"
+import {useAuth, usePosts} from "../hooks"
 const Createposts =()=> {
     const auth = useAuth();
-    const [posts,setPosts] = useState("");
+    const posts = usePosts();
+    const [postcontent,setPostcontent] = useState("");
     const[addingpost, setAddingpost] = useState(false);
     const handlepost =async (e) => {
         e.preventDefault();
         setAddingpost(true);
-        const response = await auth.postcreationhook(posts);
+        const response = await posts.postcreationhook(postcontent);
          console.log(response);
         if(response.success){
-            setPosts('');
+            setPostcontent('');
             console.log("post posted successfully");
             return;
         }
@@ -24,7 +25,7 @@ const Createposts =()=> {
         {auth.user && 
       (<div className={styles.createpost}>
             <div  className={styles.createpostcontent}>
-                <textarea value = {posts} onChange = {(e) => setPosts(e.target.value)}></textarea>
+                <textarea value = {postcontent} onChange = {(e) => setPostcontent(e.target.value)}></textarea>
             </div>
             <div className={styles.postbutton} >
             <button onClick={handlepost} className={styles.addpostbtn} >Add post</button>

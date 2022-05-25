@@ -6,13 +6,16 @@ import { BrowserRouter } from 'react-router-dom';
 //import  toast  from 'react-toast-notification';
 import App from './components/App'
 import { AuthProvider } from './providers/AuthProvider';
+import {PostsProvider} from "./providers/PostsProvider"
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
     <AuthProvider>
-      <App />
-    </AuthProvider>
+        <PostsProvider>
+          <App />
+        </PostsProvider>
+      </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')

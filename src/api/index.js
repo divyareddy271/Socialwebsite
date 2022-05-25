@@ -39,7 +39,7 @@ const customFetch = async (url, { body, ...customConfig }) => {
 
     throw new Error(data.message);
   } catch (error) {
-    console.error('error message');
+    
     return {
       message: error.message,
       success: false,
@@ -47,7 +47,7 @@ const customFetch = async (url, { body, ...customConfig }) => {
   }
 };
 
-export const getPosts = (page = 2, limit = 7) => {
+export const getPosts = (page = 2, limit = 4) => {
   return customFetch(API_URLS.posts(page, limit), {
     method: 'GET',
   });
@@ -94,10 +94,28 @@ export const fetchfriends= () =>{
   });
 }
 
-export const postCreation= (content) =>{
+export const postCreation = (content) =>{
   return  customFetch(API_URLS.createPost(),{
     method: 'POST',
     body: {content}
+  });
+}
+export const createcomment  = (postid, content) =>{
+  return  customFetch(API_URLS.comment(),{
+    method: 'POST',
+    body: {
+      post_id:postid, 
+      content}
+  });
+}
+export const ToggleLike  = (itemid, itemtype) =>{
+  return  customFetch(API_URLS.toggleLike(itemid, itemtype),{
+    method: 'POST',
+  });
+}
+export const Userfind  = (text) =>{
+  return  customFetch(API_URLS.searchUsers(text),{
+    method: 'GET',
   });
 }
 

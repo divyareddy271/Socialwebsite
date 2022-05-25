@@ -1,15 +1,23 @@
 import { useContext, useState, useEffect } from "react";
-import { AuthContext } from "../providers/AuthProvider";
-import { login as userLogin } from "../api";
-import { register, editprofile, addfriend, fetchfriends,postCreation } from "../api";
+import { AuthContext, PostsContext } from "../providers";
+import jwt from "jwt-decode";
+import {
+  register,
+  editprofile,
+  login as userLogin,
+  fetchfriends,
+  postCreation,
+  getPosts,
+  ToggleLike,
+  createcomment,
+} from "../api";
 import {
   getItemfromLocalStorage,
   LocalStorage_Token_Key,
   removeItemfromLocalStorage,
   SetItemonLocalStorage,
 } from "../utils";
-import jwt from "jwt-decode";
-import jwtDecode from "jwt-decode";
+
 
 export const useAuth = () => {
   return useContext(AuthContext);
@@ -18,7 +26,6 @@ export const useAuth = () => {
 export const useProvideAuth = () => {
   const [user, setUser] = useState();
   const [Loading, setLoading] = useState(true);
-  const [posts,setPosts] = useState(); 
   useEffect(() => {
     const getUser = async () => {
       const userToken = getItemfromLocalStorage(LocalStorage_Token_Key);
@@ -38,31 +45,27 @@ export const useProvideAuth = () => {
           ...user,
           friendships,
         });
-        console.log("refreshed", user.email + "  " + userToken);
       }
+      setLoading(false);
     };
     getUser();
-    setLoading(false);
+    
   }, []);
   //const []=useState(null);
   const signup = async (email, name, password, confirm_password) => {
     const response = await register(email, name, password, confirm_password);
 
     if (response.success) {
-      setUser(response.data.user);
       return {
         success: true,
       };
     } else {
-      setUser(null);
       return {
         success: false,
         message: response.message,
       };
     }
   };
-
-  
 
   const login = async (email, password) => {
     const response = await userLogin(email, password);
@@ -77,7 +80,6 @@ export const useProvideAuth = () => {
         success: true,
       };
     } else {
-      setUser(null);
       return {
         success: false,
         message: response.message,
@@ -98,7 +100,6 @@ export const useProvideAuth = () => {
         success: true,
       };
     } else {
-      setUser(null);
       return {
         success: false,
         message: response.message,
@@ -112,12 +113,11 @@ export const useProvideAuth = () => {
         friendships: [...user.friendships, friend],
       });
       return;
-    }
-    else{
+    } else {
       const newFriends = user.friendships.filter(
         (f) => f.to_user._id !== friend.to_user._id
       );
-  
+
       setUser({
         ...user,
         friends: newFriends,
@@ -128,33 +128,104 @@ export const useProvideAuth = () => {
     setUser(null);
     removeItemfromLocalStorage(LocalStorage_Token_Key);
   };
-   const postcreationhook = async (content) => {
-   const response = await postCreation(content);
-   console.log(response);
-   if(response.success){
-    setPosts(response.data.post);
-    return {
-      success: true,
-    };
-  } else {
-    setUser(null);
-    return {
-      success: false,
-      message: response.message,
-    };
-   }
-   }
 
   return {
     user,
     login,
     logout,
-    postcreationhook,
+
     Loading,
     signup,
     updateProfile,
-  //  addfriendtolist,
+    //  addfriendtolist,
     updateuserdetails,
     //  fetchfriendslist,
+  };
+};
+export const usePosts = () => {
+  return useContext(PostsContext);
+};
+export const useProvidePosts = () => {
+  const [posts, setPosts] = useState([]);
+  const [Loading, setLoading] = useState(true);
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const response = await getPosts();
+     // console.log("response res", response);
+      if (response.success) {
+        setPosts(response.data.posts);
+        console.log("response", response.data.posts);
+      }
+      setLoading(false);
+    };
+
+    fetchPosts();
+  }, []);
+  const commentaddition = async (postid,comment) => {
+    const response = await createcomment(postid,comment);
+    if(response.success){
+      console.log("added");
+      const newcomment = posts.map((post) => {
+        if(post._id === postid){
+          return {...post, comments: [...post.comments,response.data.comment]}
+          
+        }
+        return post;
+      })
+       
+      setPosts(newcomment);
+      console.log("mmm",posts);
+      return {
+        success: true,
+      };
+    
+    } else {
+      
+      return {
+        success: false,
+        message: response.message,
+      };
+    }
+  }
+  const postcreationhook = async (content) => {
+    const response = await postCreation(content);
+    const newpost = [response.data.post, ...posts];
+    console.log(newpost);
+    if (response.success) {
+      setPosts(newpost);
+      return {
+        success: true,
+      };
+    } else {
+    
+      return {
+        success: false,
+        message: response.message,
+      };
+    }
+  };
+  const postcommenttogglelike = async (itemid,itemtype) => {
+    const response = await ToggleLike(itemid,itemtype);
+    console.log("Posts like",response.data);
+    if (response.success) {
+      
+      return {
+        success: true,
+      };
+    } else {
+    
+      return {
+        success: false,
+        message: response.message,
+      };
+    }
+  }
+
+  return {
+    data: posts,
+    Loading,
+    postcreationhook,
+    commentaddition,
+    postcommenttogglelike
   };
 };
